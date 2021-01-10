@@ -315,9 +315,17 @@ end
 -- Returns the value of the selected option in a drop down menu.
 -- This exists because the built in UIDropDownMenu_GetSelectedValue appears to be broken.
 -- Of course, it is probable that I am using the drop down menu incorrectly in this case.
-function NL.GetValueFromDropDownList(DropDownMenu, OptionList)
+function NL.GetValueFromDropDownList(DropDownMenu, OptionList, DropDownType)
 	local selectedValue = L_UIDropDownMenu_GetSelectedID(DropDownMenu)
-	return OptionList[selectedValue]
+	if DropDownType == "SSAssignments" then
+		if OptionList[selectedValue] == nil then
+			return "None"
+		else
+			return OptionList[selectedValue].Name
+		end
+	else
+		return OptionList[selectedValue]
+	end
 end
 
 -- Function that converts the Option Value to the Spell Name.
@@ -401,7 +409,7 @@ function NL.CreateSSAssignmentMenu(ParentFrame)
 
 	local SSTargets = NL.GetSSTargets();
 
-	local SSAssignmentMenu = NL.CreateDropDownMenu(ParentFrame, SSTargets, "SS")
+	local SSAssignmentMenu = NL.CreateDropDownMenu(ParentFrame, SSTargets, "SSAssignments")
 	SSAssignmentMenu:SetPoint("CENTER", 140, 20)	
 	SSAssignmentMenu.Label = NL.CreateSSAssignmentLabel(SSAssignmentMenu)
 	
@@ -453,7 +461,7 @@ function NL.CreateDropDownMenu(ParentFrame, OptionList, DropDownType)
 		
 		L_UIDropDownMenu_SetSelectedID(NewDropDownMenu, self:GetID())
     
-		local selection = NL.GetValueFromDropDownList(NewDropDownMenu, OptionList)
+		local selection = NL.GetValueFromDropDownList(NewDropDownMenu, OptionList, DropDownType)
 		if NL.DebugMode then
 			print("User changed selection to " .. selection)
 		end
@@ -464,8 +472,14 @@ function NL.CreateDropDownMenu(ParentFrame, OptionList, DropDownType)
 		local info = L_UIDropDownMenu_CreateInfo()
 		for k,v in pairs(OptionList) do
 			info = L_UIDropDownMenu_CreateInfo()
-			info.text = v
-			info.value = v
+			if DropDownType == "SSAssignments" then
+				info.text = v.Name
+				info.value = v.Name
+				
+			else
+				info.text = v
+				info.value = v
+			end
 			info.func = OnClick
 			L_UIDropDownMenu_AddButton(info, level)
 		end		
@@ -483,7 +497,7 @@ function NL.UpdateDropDownMenuWithNewOptions(DropDownMenu, OptionList, DropDownT
 	local function OnClick(self)		
         L_UIDropDownMenu_SetSelectedID(DropDownMenu, self:GetID())
     
-		local selection = NL.GetValueFromDropDownList(DropDownMenu, OptionList)
+		local selection = NL.GetValueFromDropDownList(DropDownMenu, OptionList, DropDownType)
 		if NL.DebugMode then
 			print("User changed selection to " .. selection)
 		end
@@ -494,9 +508,22 @@ function NL.UpdateDropDownMenuWithNewOptions(DropDownMenu, OptionList, DropDownT
 		local info = L_UIDropDownMenu_CreateInfo()
 		for k,v in pairs(OptionList) do
 			info = L_UIDropDownMenu_CreateInfo()
-			info.text = v
-			info.value = v
+			
+			if DropDownType == "SSAssignments" then
+				info.text = v.Name
+				info.value = v.Name
+			else
+				info.text = v
+				info.value = v
+			end
+			
 			info.func = OnClick
+			
+			if DropDownType == "SSAssignments" then
+				if v.Color ~= nil then
+					info.colorCode = "|c"..v.Color							
+				end
+			end
 			L_UIDropDownMenu_AddButton(info, level)
 		end
 	end
@@ -505,7 +532,8 @@ function NL.UpdateDropDownMenuWithNewOptions(DropDownMenu, OptionList, DropDownT
     L_UIDropDownMenu_SetWidth(DropDownMenu, 100);
     L_UIDropDownMenu_SetButtonWidth(DropDownMenu, 124)
     L_UIDropDownMenu_SetSelectedID(DropDownMenu, 1)
-    L_UIDropDownMenu_JustifyText(DropDownMenu, "LEFT")
+	L_UIDropDownMenu_JustifyText(DropDownMenu, "LEFT")
+	--print(DropDownMenu.colorCode);
 end
 
 function NL.InitLockyAssignCheckFrame()

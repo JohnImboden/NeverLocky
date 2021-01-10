@@ -122,9 +122,11 @@ end
 function NL.MergeAssignments(LockyTable)
 	for k,v in pairs(LockyTable) do 
 		local lock = NL.GetLockyDataByName(v.Name);
-		lock.SSAssignment = v.SSAssignment;
-		lock.CurseAssignment = v.CurseAssignment;
-		lock.BanishAssignment = v.BanishAssignment;
+		if lock~=nil then
+			lock.SSAssignment = v.SSAssignment;
+			lock.CurseAssignment = v.CurseAssignment;
+			lock.BanishAssignment = v.BanishAssignment;
+		end
 	end
 end
 
@@ -186,55 +188,72 @@ function NL.GetSSTargetsFromRaid()
 	if NL.RaidMode then
 		--print("Raid MODE!!")
 		--I need to implement this next time I am in a raid.
-		local results = {}		
+		local results = {}	
 		for i=1, 40 do
 			local name, rank, subgroup, level, class, fileName, 
 				zone, online, isDead, role, isML, combatRole = GetRaidRosterInfo(i);
+
+			local rPerc, gPerc, bPerc, argbHex = GetClassColor(fileName);	
 			if not (name == nil) then
 				--print(name .. "-" .. fileName .. "-" .. rank .. role)
-				if fileName == "PRIEST" or fileName == "PALADIN" or fileName == "SHAMAN" or role == "MAINTANK" then
-					table.insert(results, name)
-				end
+				--if fileName == "PRIEST" or fileName == "PALADIN" or fileName == "SHAMAN" or role == "MAINTANK" then
+					local ssWithColor = {};
+					ssWithColor.Name = name;
+					ssWithColor.Color = argbHex;
+					table.insert(results, ssWithColor)
+					--table.insert(boostedResults, ssWithColor)
+				--end
 			end		
 		end
-		table.insert(results,"None")
+		local function compare(a,b)
+			return a.Color > b.Color or (a.Color == b.Color and a.Name < b.Name)
+		  end
+		  table.sort(results, compare)
+		--table.sort(results);
+		local ssWithColor = {};
+			ssWithColor.Name = "None";
+			ssWithColor.Color = nil;
+		table.insert(results,ssWithColor)
 		return results
 	else
-		if NL.DebugMode then
-			print("Registering Test SS target data.");
-			if NL.SSTargetFlipperTester then
-				NL.SSTargetFlipperTester = false
-				if NL.DebugMode then
-					print("Setting SS target set 1.");
-				end
-				return {
-					"Priest1",
-					"Priest2",
-					"Priest3",
-					"Paladin1",
-					"Paladin2",				
-					"WarriorTank1",
-					"None"
-				}
-			else
-				NL.SSTargetFlipperTester = true
-				if NL.DebugMode then
-					print("Setting SS target set 2.");
-				end
-				return {
-					"PriestA",
-					"PriestB",
-					"PriestC",
-					"PaladinA",
-					"PaladinB",				
-					"WarriorTankA",
-					"None"
-				}
-			end	
-		else
+		-- if NL.DebugMode then
+		-- 	print("Registering Test SS target data.");
+		-- 	if NL.SSTargetFlipperTester then
+		-- 		NL.SSTargetFlipperTester = false
+		-- 		if NL.DebugMode then
+		-- 			print("Setting SS target set 1.");
+		-- 		end
+		-- 		return {
+		-- 			"Priest1",
+		-- 			"Priest2",
+		-- 			"Priest3",
+		-- 			"Paladin1",
+		-- 			"Paladin2",				
+		-- 			"WarriorTank1",
+		-- 			"None"
+		-- 		}
+		-- 	else
+		-- 		NL.SSTargetFlipperTester = true
+		-- 		if NL.DebugMode then
+		-- 			print("Setting SS target set 2.");
+		-- 		end
+		-- 		return {
+		-- 			"PriestA",
+		-- 			"PriestB",
+		-- 			"PriestC",
+		-- 			"PaladinA",
+		-- 			"PaladinB",				
+		-- 			"WarriorTankA",
+		-- 			"None"
+		-- 		}
+		-- 	end	
+		-- else
 			--print("Not in debug mode, solo mode enabled no targets");
-			return {"None"};
-		end
+			local ssWithColor = {};
+					ssWithColor.Name = "None";
+					ssWithColor.Color = nil;
+			return {ssWithColor};
+		-- end
 	end
 end
 

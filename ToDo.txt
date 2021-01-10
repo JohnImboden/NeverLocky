@@ -86,10 +86,18 @@ Features:
     Issue - Need to fix whisper announcements
         - Done..... I noobed out on that one.... .Net would never have allowed that to ship.
     Feature Update - Added mouseover capability to the assignment macro.
-
+    Remove the filter on soulstone recipients.
+           Added a sort to the list and color coded names based on classes.
 
 ToDo:
     Add a notification system the will show messages when action is needed I.E - SS needed, Curse Needed, Banish wearing off--
+        How to determine if an SS is needed in the raid?
+            Check all SS targets that have been assigned.
+                IF the target has no SS AND the you have an SS available then pop up a notification?
+                If the target has an SS and you are assigned to SS that target then we can add a timer to the assignment monitor sub-screen. 
+                    (change name to red font vs green with a timer.)
+                    How to determine timer... 
+                    Need a way to store addon users vs non addon users.
     
     Need to add event subscription to update the ui if the raid state changes. (only if the addon is showing.)
 
@@ -100,5 +108,4 @@ ToDo:
             3 addon users need to be in the raid, and 2 of them need to /rl at the same time.
             Can also be recreated in the case of mass DC. 
 
-    Remove the filter on soulstone recipients.
-        I want to add a sort to the list and color code names based on classes.
+    

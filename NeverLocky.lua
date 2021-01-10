@@ -13,7 +13,7 @@ function NL.NeverLockyInit()
 		--print("LockyFriendsData Default Assignments Set successfully.")
 		NL.UpdateAllLockyFriendFrames();
 		
-		print("|cff9322B5 Never Locky|cFFFFFFFF has been registered to the WOW UI.")		
+		print("|cff9322B5Never Locky|cFFFFFFFF has been registered to the WOW UI.")		
 		print("Use |cff9322B5/nl|cFFFFFFFF or |cff9322B5/neverlocky|cFFFFFFFF to view assignment information.")
 		--NeverLockyFrame:Show()
 		NL.InitLockyAssignCheckFrame();	

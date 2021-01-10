@@ -44,14 +44,14 @@ function NL.UpdateLockyFrame(Warlock, LockyFriendFrame)
 	--Set the BanishAssignmentMenu
 	--print("Updating Banish to: ".. Warlock.BanishAssignment)
 	L_UIDropDownMenu_SetSelectedID(LockyFriendFrame.BanishAssignmentMenu, NL.GetIndexFromTable(NL.BanishMarkers, Warlock.BanishAssignment))
-	NL.UpdateBanishGraphic(LockyFriendFrame.BanishAssignmentMenu, NL.GetValueFromDropDownList(LockyFriendFrame.BanishAssignmentMenu, NL.BanishMarkers))
-	LockyFriendFrame.BanishAssignmentMenu.Text:SetText(NL.GetValueFromDropDownList(LockyFriendFrame.BanishAssignmentMenu, NL.BanishMarkers))
+	NL.UpdateBanishGraphic(LockyFriendFrame.BanishAssignmentMenu, NL.GetValueFromDropDownList(LockyFriendFrame.BanishAssignmentMenu, NL.BanishMarkers, ""))
+	LockyFriendFrame.BanishAssignmentMenu.Text:SetText(NL.GetValueFromDropDownList(LockyFriendFrame.BanishAssignmentMenu, NL.BanishMarkers, ""))
 
 	--Set the SS Assignment
 	--print("Updating SS to: ".. Warlock.SSAssignment)
 	NL.UpdateDropDownMenuWithNewOptions(LockyFriendFrame.SSAssignmentMenu, NL.GetSSTargets(), "SSAssignments");
-	L_UIDropDownMenu_SetSelectedID(LockyFriendFrame.SSAssignmentMenu, NL.GetIndexFromTable(NL.GetSSTargets(),Warlock.SSAssignment))
-	LockyFriendFrame.SSAssignmentMenu.Text:SetText(NL.GetValueFromDropDownList(LockyFriendFrame.SSAssignmentMenu, NL.GetSSTargets()))
+	L_UIDropDownMenu_SetSelectedID(LockyFriendFrame.SSAssignmentMenu, NL.GetSSIndexFromTable(NL.GetSSTargets(),Warlock.SSAssignment))
+	LockyFriendFrame.SSAssignmentMenu.Text:SetText(NL.GetValueFromDropDownList(LockyFriendFrame.SSAssignmentMenu, NL.GetSSTargets(), "SSAssignments"))
 
 	--Update the Portrait picture	
 	if Warlock.Name=="" then
@@ -293,8 +293,8 @@ function NL.GetWarlockFromLockyFrame(LockyName)
     local LockyFriendFrame = NL.GetLockyFriendFrameByName(LockyName)
     local Warlock = NL.CreateWarlock(LockyFriendFrame.LockyName,
 	NL.GetCurseValueFromDropDownList(LockyFriendFrame.CurseAssignmentMenu),
-	NL.GetValueFromDropDownList(LockyFriendFrame.BanishAssignmentMenu, NL.BanishMarkers))                
-    Warlock.SSAssignment = NL.GetValueFromDropDownList(LockyFriendFrame.SSAssignmentMenu, NL.GetSSTargets())         
+	NL.GetValueFromDropDownList(LockyFriendFrame.BanishAssignmentMenu, NL.BanishMarkers, ""))                
+    Warlock.SSAssignment = NL.GetValueFromDropDownList(LockyFriendFrame.SSAssignmentMenu, NL.GetSSTargets(), "SSAssignments")         
     Warlock.LockyFrameLocation = LockyFriendFrame.LockyFrameID       
     return Warlock   
 end
@@ -337,7 +337,7 @@ function NL.CommitChanges(LockyFriendsData)
 end
 
 function NL.AnnounceAssignments()
-	local AnnounceOption = 	NL.GetValueFromDropDownList(LockyAnnouncerOptionMenu, NL.AnnouncerOptions);
+	local AnnounceOption = 	NL.GetValueFromDropDownList(LockyAnnouncerOptionMenu, NL.AnnouncerOptions, "");
 	for k, v in pairs(NL.LockyFriendsData) do
 		local message = ""
 		if v.CurseAssignme1nt ~= "None"  or v.BanishAssignment ~= "None" or v.SSAssignment~="None" then
