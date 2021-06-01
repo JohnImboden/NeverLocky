@@ -1,6 +1,6 @@
 ## Interface: 11305
 ## Title: Never Locky
-## Notes: Allows the user to see the warlock assignments.
+## Notes: Allows the user to see and share warlock assignments.
 ## Author: Brylack
 
 Libs\LibStub\LibStub.lua
@@ -12,6 +12,8 @@ Libs\AceGUI-3.0\AceGUI-3.0.lua
 Libs\AceConfig-3.0\AceConfigRegistry-3.0\AceConfigRegistry-3.0.lua
 Libs\AceConfig-3.0\AceConfigDialog-3.0\AceConfigDialog-3.0.lua
 Libs\AceConsole-3.0\AceConsole-3.0.lua
+Libs\!LibUIDropDownMenu\LibUIDropDownMenu\LibUIDropDownMenuTemplates.xml
+Libs\!LibUIDropDownMenu\LibUIDropDownMenu\LibUIDropDownMenu.xml
 LockyGlobalData.lua
 LockyTableFunctions.lua
 LockyUI.lua

@@ -1,16 +1,18 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<Script file="Libs\LibStub\LibStub.lua"/>
-	<Script File="LockyGlobalData.lua"/>
-	<Script file="Libs\Ace3.lua"/>
-	<Script File="LockyTableFunctions.lua"/>
-	<Script File="LockyDataUI.lua"/>
-	<Script File="LockyUI.lua"/>
-	<Script File="LockyComms.lua"/>
-	<Script File="NeverLocky.lua"/>
-	<Include file="Libs\AceAddon-3.0\AceAddon-3.0.xml"/>		
-	<Include file="Libs\AceComm-3.0\AceComm-3.0.xml"/>
+	<Script file="Libs\LibStub\LibStub.lua" />
+	<include file="Libs\!LibUIDropDownMenu\LibUIDropDownMenu\LibUIDropDownMenu.lua" />
+	<Script File="LockyGlobalData.lua" />
+	<Script file="Libs\Ace3.lua" />
+	<Script File="LockyTableFunctions.lua" />
+	<Script File="LockyDataUI.lua" />
+	<Script File="LockyUI.lua" />
+	<Script File="LockyComms.lua" />
+	<Script File="NeverLocky.lua" />
+	<Include file="Libs\AceAddon-3.0\AceAddon-3.0.xml" />
+	<Include file="Libs\AceComm-3.0\AceComm-3.0.xml" />
 
-	<Frame name="NeverLockyFrame" toplevel="true" movable="true" enableMouse="true" parent="UIParent" hidden="true">
+
+	<Frame name="NeverLockyFrame" movable="true" enableMouse="true" parent="UIParent" hidden="false" inherits="BackdropTemplate">
 		<Size>
 			<AbsDimension x="500" y="563" />
 		</Size>
@@ -21,7 +23,8 @@
 				</Offset>
 			</Anchor>
 		</Anchors>
-		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background"
+
+		<!--	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background"
            edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
 			<BackgroundInsets>
 				<AbsInset left="11" right="12" top="12" bottom="11"/>
@@ -33,7 +36,7 @@
 				<AbsValue val="32"/>
 			</EdgeSize>
 		</Backdrop>
-
+-->
 		<Layers>
 			<Layer>
 				<Texture file="Interface\DialogFrame\UI-DialogBox-Header">
@@ -48,7 +51,7 @@
 						</Anchor>
 					</Anchors>
 					<TexCoords left="0.2" right="0.8" top="0" bottom="0.6" />
-				</Texture>		
+				</Texture>
 				<FontString inherits="GameFontNormal" text="Never Locky">
 					<Size>
 						<AbsDimension x="140" y="0" />
@@ -63,12 +66,12 @@
 					<FontHeight>
 						<AbsValue val="14" />
 					</FontHeight>
-					<Color r="1" g="1" b="1"/>
+					<Color r="1" g="1" b="1" />
 				</FontString>
 			</Layer>
 		</Layers>
 
-		<Frames> 
+		<Frames>
 			<!--
 		I need to add the following into this UI.
 		
@@ -86,7 +89,7 @@
 		A drop down list of raid markers for banish assignments.
 		
 		Possible ready check style confirmations...
-		-->			
+		-->
 			<Button name="NLTest_Button" inherits="GameMenuButtonTemplate" text="Test" hidden="true">
 				<Size>
 					<AbsDimension x="90" y="20" />
@@ -94,13 +97,13 @@
 				<Anchors>
 					<Anchor point="BOTTOMLEFT" relativeTo="NeverLockyFrame" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension x="10" y="16"/>
+							<AbsDimension x="10" y="16" />
 						</Offset>
 					</Anchor>
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						NL_Test()
+						NL.NL_Test()
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -111,13 +114,13 @@
 				<Anchors>
 					<Anchor point="BOTTOMRIGHT" relativeTo="NeverLockyFrame" relativePoint="BOTTOMRIGHT">
 						<Offset>
-							<AbsDimension x="-10" y="16"/>
+							<AbsDimension x="-10" y="16" />
 						</Offset>
 					</Anchor>
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						NeverLocky_HideFrame()
+						NL.NeverLocky_HideFrame()
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -128,24 +131,24 @@
 				<Anchors>
 					<Anchor point="RIGHT" relativeTo="NLCancel_Button" relativePoint="LEFT">
 						<Offset>
-							<AbsDimension x="-5" y="0"/>
+							<AbsDimension x="-5" y="0" />
 						</Offset>
 					</Anchor>
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						NeverLocky_Commit()
+						NL.NeverLocky_Commit()
 					</OnClick>
 				</Scripts>
 			</Button>
 			<Frame name="NLAnnouncerContainer">
 				<Size>
-					<AbsDimension x="115" y="20"/>
+					<AbsDimension x="115" y="20" />
 				</Size>
 				<Anchors>
 					<Anchor point="RIGHT" relativeTo="NLCommit_Button" relativePoint="LEFT">
 						<Offset>
-							<AbsDimension x="-5" y="0"/>
+							<AbsDimension x="-5" y="0" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -153,22 +156,21 @@
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				NeverLockyInit()
+				NL.NeverLockyInit()
 				self:RegisterForDrag("LeftButton");
 				
 			</OnLoad>
 			<OnShow>	
-				NeverLocky_OnShowFrame()
-			</OnShow>			
+				NL.NeverLocky_OnShowFrame()
+			</OnShow>
 			<OnDragStart>
 				self:StartMoving();
 			</OnDragStart>
 			<OnDragStop>
 				self:StopMovingOrSizing();
 			</OnDragStop>
-			<OnUpdate function="NeverLocky_OnUpdate" />			
+			<OnUpdate function="NeverLocky_OnUpdate" />
 		</Scripts>
 	</Frame>
 
 </Ui>
-
