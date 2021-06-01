@@ -1,3 +1,4 @@
+local lib = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
 --Creates a scroll area to hold the locky friend frames. 
 --This logic was lifted from a snippet from wowprogramming.com I think....
@@ -139,7 +140,7 @@ end
 
 --Creates the frame that will act as teh container for the component control.
 function NL.CreateLockyFriendContainer(ParentFrame, number)
-	local LockyFriendFrame = CreateFrame("Frame", nil, ParentFrame) 
+	local LockyFriendFrame = CreateFrame("Frame", nil, ParentFrame, BackdropTemplateMixin and "BackdropTemplate") 
 	LockyFriendFrame:SetSize(NL.LockyFriendFrameWidth-67, NL.LockyFriendFrameHeight) 
 	--Set up the border around the locky frame.
 	LockyFriendFrame:SetBackdrop({
@@ -301,14 +302,14 @@ end
 -- Gets the selected value of the cures from the drop down list.
 -- Use GetValueFromDropDownList instead.
 function NL.GetCurseValueFromDropDownList(DropDownMenu)
-	local selectedValue = L_UIDropDownMenu_GetSelectedID(DropDownMenu)
+	local selectedValue = lib:UIDropDownMenu_GetSelectedID(DropDownMenu)
 	return NL.CurseOptions[selectedValue]
 end
 
 -- Gets the selected value of the banish target from the drop down list.
 -- This is arguably an easier way than referencing the getvalue from dropdown list function.
 function NL.GetBanishValueFromDropDownList(DropDownMenu)
-	local selectedValue = L_UIDropDownMenu_GetSelectedID(DropDownMenu)
+	local selectedValue = lib:UIDropDownMenu_GetSelectedID(DropDownMenu)
 	return NL.BanishMarkers[selectedValue]
 end
 
@@ -316,7 +317,7 @@ end
 -- This exists because the built in UIDropDownMenu_GetSelectedValue appears to be broken.
 -- Of course, it is probable that I am using the drop down menu incorrectly in this case.
 function NL.GetValueFromDropDownList(DropDownMenu, OptionList, DropDownType)
-	local selectedValue = L_UIDropDownMenu_GetSelectedID(DropDownMenu)
+	local selectedValue = lib:UIDropDownMenu_GetSelectedID(DropDownMenu)
 	if DropDownType == "SSAssignments" then
 		if OptionList[selectedValue] == nil then
 			return "None"
@@ -454,12 +455,12 @@ local dropdowncount = 0
 --Adding a dropdown type further allows for the sidebar graphic to update as well, but is not required.
 function NL.CreateDropDownMenu(ParentFrame, OptionList, DropDownType)
     dropdowncount = dropdowncount + 1
-    local NewDropDownMenu = CreateFrame("Button", "NL_DropDown0"..dropdowncount, ParentFrame, "L_UIDropDownMenuTemplate")
-
+   -- local NewDropDownMenu = CreateFrame("Button", "NL_DropDown0"..dropdowncount, ParentFrame, "L_UIDropDownMenuTemplate")
+   	local NewDropDownMenu = lib:Create_UIDropDownMenu("NL_DropDown0"..dropdowncount, ParentFrame)
     local function OnClick(self)		
 		
 		
-		L_UIDropDownMenu_SetSelectedID(NewDropDownMenu, self:GetID())
+		lib:UIDropDownMenu_SetSelectedID(NewDropDownMenu, self:GetID())
     
 		local selection = NL.GetValueFromDropDownList(NewDropDownMenu, OptionList, DropDownType)
 		if NL.DebugMode then
@@ -469,9 +470,9 @@ function NL.CreateDropDownMenu(ParentFrame, OptionList, DropDownType)
     end
     
     local function initialize(self, level)
-		local info = L_UIDropDownMenu_CreateInfo()
+		local info = lib:UIDropDownMenu_CreateInfo()
 		for k,v in pairs(OptionList) do
-			info = L_UIDropDownMenu_CreateInfo()
+			info = lib:UIDropDownMenu_CreateInfo()
 			if DropDownType == "SSAssignments" then
 				info.text = v.Name
 				info.value = v.Name
@@ -481,21 +482,21 @@ function NL.CreateDropDownMenu(ParentFrame, OptionList, DropDownType)
 				info.value = v
 			end
 			info.func = OnClick
-			L_UIDropDownMenu_AddButton(info, level)
+			lib:UIDropDownMenu_AddButton(info, level)
 		end		
     end
-    L_UIDropDownMenu_Initialize(NewDropDownMenu, initialize)
-    L_UIDropDownMenu_SetWidth(NewDropDownMenu, 100);
-    L_UIDropDownMenu_SetButtonWidth(NewDropDownMenu, 124)
-    L_UIDropDownMenu_SetSelectedID(NewDropDownMenu, 1)
-    L_UIDropDownMenu_JustifyText(NewDropDownMenu, "LEFT")
+    lib:UIDropDownMenu_Initialize(NewDropDownMenu, initialize)
+    lib:UIDropDownMenu_SetWidth(NewDropDownMenu, 100);
+    lib:UIDropDownMenu_SetButtonWidth(NewDropDownMenu, 124)
+    lib:UIDropDownMenu_SetSelectedID(NewDropDownMenu, 1)
+    lib:UIDropDownMenu_JustifyText(NewDropDownMenu, "LEFT")
     
     return NewDropDownMenu
 end
 
 function NL.UpdateDropDownMenuWithNewOptions(DropDownMenu, OptionList, DropDownType)
 	local function OnClick(self)		
-        L_UIDropDownMenu_SetSelectedID(DropDownMenu, self:GetID())
+        lib:UIDropDownMenu_SetSelectedID(DropDownMenu, self:GetID())
     
 		local selection = NL.GetValueFromDropDownList(DropDownMenu, OptionList, DropDownType)
 		if NL.DebugMode then
@@ -505,9 +506,9 @@ function NL.UpdateDropDownMenuWithNewOptions(DropDownMenu, OptionList, DropDownT
     end
     
     local function initialize(self, level)
-		local info = L_UIDropDownMenu_CreateInfo()
+		local info = lib:UIDropDownMenu_CreateInfo()
 		for k,v in pairs(OptionList) do
-			info = L_UIDropDownMenu_CreateInfo()
+			info = lib:UIDropDownMenu_CreateInfo()
 			
 			if DropDownType == "SSAssignments" then
 				info.text = v.Name
@@ -524,20 +525,20 @@ function NL.UpdateDropDownMenuWithNewOptions(DropDownMenu, OptionList, DropDownT
 					info.colorCode = "|c"..v.Color							
 				end
 			end
-			L_UIDropDownMenu_AddButton(info, level)
+			lib:UIDropDownMenu_AddButton(info, level)
 		end
 	end
 	
-	L_UIDropDownMenu_Initialize(DropDownMenu, initialize)
-    L_UIDropDownMenu_SetWidth(DropDownMenu, 100);
-    L_UIDropDownMenu_SetButtonWidth(DropDownMenu, 124)
-    L_UIDropDownMenu_SetSelectedID(DropDownMenu, 1)
-	L_UIDropDownMenu_JustifyText(DropDownMenu, "LEFT")
+	lib:UIDropDownMenu_Initialize(DropDownMenu, initialize)
+    lib:UIDropDownMenu_SetWidth(DropDownMenu, 100);
+    lib:UIDropDownMenu_SetButtonWidth(DropDownMenu, 124)
+    lib:UIDropDownMenu_SetSelectedID(DropDownMenu, 1)
+	lib:UIDropDownMenu_JustifyText(DropDownMenu, "LEFT")
 	--print(DropDownMenu.colorCode);
 end
 
 function NL.InitLockyAssignCheckFrame()
-	LockyAssignCheckFrame =  CreateFrame("Frame", nil, UIParent);
+	LockyAssignCheckFrame =  CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate");
 
 	LockyAssignCheckFrame:SetSize(200, 175) 
 	LockyAssignCheckFrame:SetPoint("CENTER", UIParent, "CENTER",0,0) 

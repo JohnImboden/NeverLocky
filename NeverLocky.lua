@@ -2,6 +2,14 @@
 function NL.NeverLockyInit()
 	if not LockyFrame_HasInitialized then
 		--print("Prepping init")
+		NeverLockyFrame:SetBackdrop({
+			bgFile= "Interface\\DialogFrame\\UI-DialogBox-Background",
+			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", 
+			tile = true,
+			tileSize = 32,
+			edgeSize = 32,
+			insets = { left = 11, right = 12, top = 12, bottom = 11 }
+		})	
 		NL.InitLockyFrameScrollArea()
 		--print("ScrollFrame initialized successfully.")
 		NL.RegisterForComms()

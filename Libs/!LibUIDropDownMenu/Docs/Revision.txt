@@ -1,6 +1,45 @@
-$Id: Revision.txt 49 2020-08-18 17:17:08Z arithmandar $
+$Id: Revision.txt 73 2021-05-18 17:04:17Z arithmandar $
+
 Revision History:
 =================
+
+v4.03.9000538556 (2021/05/19)
+-----------------------------
+- Added codes for fixing Tainting UIMenus and CloseMenus() (thanks to DahkCeles)
+
+v4.02.9000538556 (2021/05/19)
+-----------------------------
+- Supported WoW Classic 2.5.1 (38707)
+
+v4.01.9000236639 (2020/12/14)
+-----------------------------
+- Fixed issues that classic server doesn't have UIDropDownMenu_HandleGlobalMouseEvent()
+
+v4.00.9000236639 (2020/11/22)
+-----------------------------
+- Toc update to suppport WoW 9.0.2
+- LibUIDropDownMenu
+  - Set major version to 4.0
+  - Migrate all global functions to be under library tables
+  - Insert "L_DropDownList1" and "L_DropDownList2" to global UIMenus
+  - UIDropDownMenu_HandleGlobalMouseEvent (thanks to SLOKnightFall)
+- LibEasyMenu
+  - Move function calls to under LibUIDropDownMenu and under library tables
+- LibUIDropDownMenuTemplates
+  - Move codes to under LibUIDropDownMenu so that thet can de under one single library
+
+v3.02.9000136272.01 (2020/10/20)
+-----------------------------
+- Fixed version detection while setting ColorSwatch's backdrop template. It should now be correctly detecting the retail (as well as ShadowLands) version
+
+v3.02.9000136272 (2020/10/18)
+-----------------------------
+- Update to sync with 9.0.1 build 36272
+- ToC update to support WoW 9.0.1
+
+v3.01.9000135522 (2020/09/07)
+-----------------------------
+- Updated Backdrop's handling
 
 v3.00.9000135522 (2020/08/19)
 -----------------------------

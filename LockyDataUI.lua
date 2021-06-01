@@ -1,5 +1,5 @@
 --All of these functions are related to updating the ui from the data or vice versa.
-
+local lib = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 --Will take in the string ID and return the appropriate Locky Frame
 function NL.GetLockyFriendFrameById(LockyFrameID)
 	for key, value in pairs(LockyFrame.scrollframe.content.LockyFriendFrames) do
@@ -37,20 +37,20 @@ function NL.UpdateLockyFrame(Warlock, LockyFriendFrame)
 	--Set the CurseAssignment
 	--print("Updating Curse to: ".. Warlock.CurseAssignment) -- this may need to be done by index.....
 	--GetIndexFromTable(CurseOptions, Warlock.CurseAssignment)
-	L_UIDropDownMenu_SetSelectedID(LockyFriendFrame.CurseAssignmentMenu, NL.GetIndexFromTable(NL.CurseOptions, Warlock.CurseAssignment))
+	lib:UIDropDownMenu_SetSelectedID(LockyFriendFrame.CurseAssignmentMenu, NL.GetIndexFromTable(NL.CurseOptions, Warlock.CurseAssignment))
 	NL.UpdateCurseGraphic(LockyFriendFrame.CurseAssignmentMenu, NL.GetCurseValueFromDropDownList(LockyFriendFrame.CurseAssignmentMenu))
 	LockyFriendFrame.CurseAssignmentMenu.Text:SetText(NL.GetCurseValueFromDropDownList(LockyFriendFrame.CurseAssignmentMenu))
 	
 	--Set the BanishAssignmentMenu
 	--print("Updating Banish to: ".. Warlock.BanishAssignment)
-	L_UIDropDownMenu_SetSelectedID(LockyFriendFrame.BanishAssignmentMenu, NL.GetIndexFromTable(NL.BanishMarkers, Warlock.BanishAssignment))
+	lib:UIDropDownMenu_SetSelectedID(LockyFriendFrame.BanishAssignmentMenu, NL.GetIndexFromTable(NL.BanishMarkers, Warlock.BanishAssignment))
 	NL.UpdateBanishGraphic(LockyFriendFrame.BanishAssignmentMenu, NL.GetValueFromDropDownList(LockyFriendFrame.BanishAssignmentMenu, NL.BanishMarkers, ""))
 	LockyFriendFrame.BanishAssignmentMenu.Text:SetText(NL.GetValueFromDropDownList(LockyFriendFrame.BanishAssignmentMenu, NL.BanishMarkers, ""))
 
 	--Set the SS Assignment
 	--print("Updating SS to: ".. Warlock.SSAssignment)
 	NL.UpdateDropDownMenuWithNewOptions(LockyFriendFrame.SSAssignmentMenu, NL.GetSSTargets(), "SSAssignments");
-	L_UIDropDownMenu_SetSelectedID(LockyFriendFrame.SSAssignmentMenu, NL.GetSSIndexFromTable(NL.GetSSTargets(),Warlock.SSAssignment))
+	lib:UIDropDownMenu_SetSelectedID(LockyFriendFrame.SSAssignmentMenu, NL.GetSSIndexFromTable(NL.GetSSTargets(),Warlock.SSAssignment))
 	LockyFriendFrame.SSAssignmentMenu.Text:SetText(NL.GetValueFromDropDownList(LockyFriendFrame.SSAssignmentMenu, NL.GetSSTargets(), "SSAssignments"))
 
 	--Update the Portrait picture	
