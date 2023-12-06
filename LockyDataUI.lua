@@ -143,7 +143,7 @@ end
 function NL.UpdateLockyClockys()
 	for k,v in pairs(NL.LockyFriendsData) do
 		if (NL.DebugMode) then
-			--print(v.Name, "on cooldown =", v.SSonCD)
+			print(v.Name, "on cooldown =", v.SSonCD)
 		end
 		if(v.SSonCD=="true") then
 			-- We have the table item for the SSCooldown			
@@ -220,8 +220,8 @@ function  NL.GetLockyFriendIndexByName(table, name)
 end
 
 --Checks to see if the SS is on CD, and broadcasts if it is to all everyone.
-function NL.CheckSSCD(self)
-    local startTime, duration, enable = GetItemCooldown(16896)
+function NL.CheckSSCD(self)	
+    local startTime, duration, enable = C_Container.GetItemCooldown(5232)	
     --if my CD in never locky is different from the what I am aware of then I need to update.
 	local myself = NL.GetMyLockyData()
 	if myself ~= nil then
@@ -253,7 +253,7 @@ function NL.ForceUpdateSSCD()
 		print("Forcing SSCD cache update.")
 	end
 
-	local startTime, duration, enable = GetItemCooldown(16896)
+	local startTime, duration, enable = C_Container.GetItemCooldown(5232)
     --if my CD in never locky is different from the what I am aware of then I need to update.
 	local myself = NL.GetMyLockyData()
 	if myself ~= nil then
