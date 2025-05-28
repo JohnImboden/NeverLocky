@@ -217,7 +217,7 @@ function NL.AddTextToFrame(ParentFrame, Text, Width)
 		NamePlate:SetText(Text)
 		NamePlate:SetWidth(Width)
 		NamePlate:SetJustifyH("CENTER")
-		NamePlate:SetJustifyV("CENTER")
+		NamePlate:SetJustifyV("MIDDLE")
 		NamePlate:SetTextColor(1,1,1,1)
 	return NamePlate
 end

@@ -103,6 +103,7 @@ function NeverLocky:OnCommReceived(prefix, message, distribution, sender)
             end
 
             local myData = NL.GetMyLockyData()
+            
             if (myData~=nil)then
                 for  lockyindex, lockydata in pairs(message.data) do
                     if lockydata.Name == UnitName("player") then
@@ -127,10 +128,14 @@ function NeverLocky:OnCommReceived(prefix, message, distribution, sender)
             end               
         end 
         
-        if myData.CurseAssignment == "None" and myData.BanishAssignment == "None" and myData.SSAssignment == "None" then
-            LockyPersonalMonitorFrame:Hide();
+        if (myData~=nil)then
+            if myData.CurseAssignment == "None" and myData.BanishAssignment == "None" and myData.SSAssignment == "None" then
+                LockyPersonalMonitorFrame:Hide();
+            else
+                LockyPersonalMonitorFrame:Show();
+            end
         else
-            LockyPersonalMonitorFrame:Show();
+            LockyPersonalMonitorFrame:Hide();
         end
     elseif message.action == NL.CommAction.RequestAssignments then
         if NL.RaidMode then
